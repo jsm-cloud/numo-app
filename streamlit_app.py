@@ -50,9 +50,12 @@ if prompt:
             url = "https://supabase.co"
             headers = {
                 "apikey": "sb_publishable_lPfULIddx3L4CsC8h_pf9Q_doJlSLKR",
-                "Authorization": "Bearer sb_publishable_lPfULIddx3L4CsC8h_pf9Q_doJlSLKR"
+                "Authorization": "Bearer sb_publishable_lPfULIddx3L4CsC8h_pf9Q_doJlSLKR",
+                "Content-Type": "application/json"
             }
-            params = {"namn": f"ilike.%{prompt}%"}
+            params = {
+                "namn": f"ilike.*{prompt}*"
+            }
             
             try:
                 response = requests.get(url, headers=headers, params=params)
