@@ -4,10 +4,7 @@ import requests
 # 1. Konfigurera den rena agent-skärmen
 st.set_page_config(page_title="Numo Gemini", page_icon="🐾", layout="centered")
 
-# Lägg till din egna PNG-hundbild från er jobb-SharePoint högst upp
-st.image("https://sharepoint.com", width=250)
-
-st.title("🐾 Numo Gemini v6.5")
+st.title("🐾 Numo Gemini v6.6")
 st.subheader("Agent Copilot - Nummerupplysning")
 
 # 2. Hantera minnet och sök-räknaren
@@ -25,12 +22,11 @@ for msg in st.session_state.messages:
 prompt = st.chat_input("Skriv sökord eller .kommando...")
 
 if prompt:
-    # Visa vad agenten skrev
     with st.chat_message("user"):
         st.write(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    # 🛠️ HANTERA SYSTEMKOMMANDON (Börjar med punkt)
+    # HANTERA SYSTEMKOMMANDON
     if prompt.startswith("."):
         cmd = prompt.lower().strip()
         if cmd == ".kommandon":
@@ -43,14 +39,13 @@ if prompt:
         else:
             answer = f"❌ Okänt kommando: `{prompt}`"
 
-    # 📞 VANLIG SÖKNING MOT DIN SUPABASE-DATABAS
+    # VANLIG SÖKNING MOT DIN SUPABASE-DATABAS
     else:
         st.session_state.search_count += 1
         with st.spinner("Numo söker..."):
             url = "https://supabase.co"
             headers = {
                 "apikey": "sb_publishable_lPfULIddx3L4CsC8h_pf9Q_doJlSLKR",
-                "Authorization": "Bearer sb_publishable_lPfULIddx3L4CsC8h_pf9Q_doJlSLKR",
                 "Content-Type": "application/json"
             }
             params = {
@@ -74,7 +69,6 @@ if prompt:
             except:
                 answer = "Ett tekniskt fel uppstod vid databassökningen."
 
-    # 5. Visa Numos svar för agenten
     with st.chat_message("assistant"):
         st.write(answer)
     st.session_state.messages.append({"role": "assistant", "content": answer})
